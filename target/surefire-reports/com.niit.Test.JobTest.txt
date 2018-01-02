@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.niit.Test.JobTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 1.111 sec
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0.972 sec
