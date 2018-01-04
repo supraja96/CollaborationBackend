@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.niit.DAO.BlogDAO;
 import com.niit.config.DbConfig;
 import com.niit.model.Blog;
-
+@Ignore
 @ComponentScan("com.niit.*")
 public class BlogTest {
 	
@@ -31,7 +31,7 @@ public class BlogTest {
 		
 		blogDAO=(BlogDAO)context.getBean("blogDAO");
 	}
-	@Ignore
+	
 	@Test
 	public void addBlogTest()
 	{
@@ -84,7 +84,7 @@ public class BlogTest {
 		Blog blog=(Blog)blogDAO.getBlog(1005);
 		assertTrue("Problem in approving",blogDAO.approveBlog(blog));
 	}
-	
+	@Ignore
 	@Test
 	public void getAllBlogTest(){
 		List<Blog> blogList=(List<Blog>)blogDAO.getAllBlogs();

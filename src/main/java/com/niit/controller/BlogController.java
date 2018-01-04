@@ -40,7 +40,7 @@ public class BlogController
 		UserDetail	userDetail=(UserDetail)session.getAttribute("üser");
 		
 		blog.setCreateDate(new java.util.Date());
-		blog.setUserId(userDetail.getUserId());
+		//blog.setUserId(userDetail.getUser_Id());
 		blog.setStatus("N");
 		blog.setLikes(0);
 		

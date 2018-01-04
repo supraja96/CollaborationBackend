@@ -58,7 +58,7 @@ public class BlogDAOImpl implements BlogDAO {
 	public boolean deleteBlog(Blog blog) {
 		try
   		{
- 		sessionFactory.getCurrentSession().update(blog);
+ 		sessionFactory.getCurrentSession().delete(blog);
 
   		return true;
   		}

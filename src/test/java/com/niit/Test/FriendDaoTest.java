@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.niit.DAO.FriendDAO;
 import com.niit.config.DbConfig;
 import com.niit.model.Friend;
-
+@Ignore
 @ComponentScan("com.niit.*")
 public class FriendDaoTest {
 	
@@ -32,7 +32,7 @@ public class FriendDaoTest {
 	    friendDAO=(FriendDAO)context.getBean("friendDAO");
 	}
 
-	@Ignore
+	
 	@Test
 	public void addFriendTest() {
 		Friend friend = new Friend();
@@ -43,7 +43,7 @@ public class FriendDaoTest {
 		assertTrue("Problem in Inserting friend",friendDAO.createFriend(friend));
 	}
 
-	
+	@Ignore
 	@Test
 	public void getAllFriendRequest() {
 		List<Friend> listFriends = friendDAO.getAllFriendRequest("sunil");

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.niit.DAO.ForumDAO;
 import com.niit.config.DbConfig;
 import com.niit.model.Forum;
-
+@Ignore
 @ComponentScan("com.niit.*")
 public class ForumTest {
 	
@@ -31,7 +31,7 @@ static ForumDAO  forumDAO;
 		 forumDAO=(ForumDAO)context.getBean("forumDAO");
 	}
 
-	@Ignore
+	
 	@Test
 	public void addTest()
 	{
@@ -39,7 +39,7 @@ static ForumDAO  forumDAO;
 		forum.setForumId(110);
 		forum.setForumName("Innovative ideas");
 		forum.setForumContent("Share your ideas with us");
-		forum.setUserId(103);
+		//forum.setUserId(103);
 		forum.setStatus("A");
 		forum.setCreateDate(new java.util.Date());
 		
@@ -80,7 +80,7 @@ static ForumDAO  forumDAO;
 		Forum forum=(Forum)forumDAO.getForum(118);
 		assertTrue("Problem in approving",forumDAO.approveForum(forum));
 	}
-    
+    @Ignore
 	@Test
 	public void getAllForumTest(){
 		List<Forum> forumList=(List<Forum>)forumDAO.getAllForums();

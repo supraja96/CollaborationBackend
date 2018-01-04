@@ -3,6 +3,9 @@ package com.niit.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.niit.DAO.ForumDAO;
 
 import com.niit.model.Forum;
+import com.niit.model.UserDetail;
 
 @RestController
 public class ForumController {
@@ -24,8 +28,13 @@ public class ForumController {
 	private ForumDAO forumDAO;
 	
 	@PostMapping(value="/insertForum")
-	public ResponseEntity<String> insertForum(@RequestBody Forum forum)
+	public ResponseEntity<String> insertForum(@RequestBody Forum forum,HttpSession session)
 	{
+		//UserDetail userDetail=(UserDetail)Session.getAttribute("üser");
+		
+		//forum.setUserId(userDetail.getUser_Id());
+		forum.setCreateDate(new java.util.Date());
+		forum.setStatus("A");
 		if(forumDAO.addForum(forum)){
 			return new ResponseEntity<String>("Forum Added",HttpStatus.OK);
 		}

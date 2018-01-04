@@ -26,26 +26,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Transactional
-	public boolean updateOnlineStatus(String status, UserDetail user)
-	{
-		try
-		{
-		user.setIsOnline(status);
-		sessionFactory.getCurrentSession().save(user);
-		return true;
-		}
-		catch(Exception e)
-		{
-		System.out.println("Exception occured:" +e);
-		return false;
-		}	
-	}
-	
-	@Transactional
 	public boolean addUserDetail(UserDetail user) {
 		try
 		{
-		sessionFactory.getCurrentSession().save(user);
+			Session session = sessionFactory.getCurrentSession();
+			session.save(user);
 		return true;
 		}
 		catch(Exception e)
@@ -54,48 +39,72 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 		}	
 	}
-	@SuppressWarnings("unchecked")
+    @Transactional
+	public boolean updateOnlineStatus(String status, UserDetail user) {
+		
+		try{
+			user.setStatus(status);
+		sessionFactory.getCurrentSession().update(user);
+			return true;
+			
+		}
+		catch(Exception e)
+		{
+		System.out.println("Exception occured:" +e);
+		return false;
+		}	
+	}
 	@Transactional
-	public List<UserDetail> getAllUserDetails() {
-	Session session=sessionFactory.openSession();
-	List<UserDetail> user=(List<UserDetail>)session.createQuery("from UserDetail").list();
-	session.close();
-	return user;
+    public UserDetail getByEmail(String email) {
+		String hql = "from UserDetail where email='" + email + "'";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<UserDetail> list = query.list();
+
+		if (list.isEmpty()) {
+			return null;
+		} else {
+			return list.get(0);
+		}
 	}
 
-    @Transactional
-	public UserDetail getUserDetails(String username) {
+	@Transactional
+	public List<UserDetail> getAllUserDetails() {
 		Session session=sessionFactory.openSession();
-		UserDetail user=(UserDetail)session.get(UserDetail.class,username);
+		List<UserDetail> user=(List<UserDetail>)session.createQuery("from UserDetail").list();
 		session.close();
 		return user;
 	}
+
+
     @Transactional
-	public UserDetail getByEmail(String email) 
-    {
-			return (UserDetail)sessionFactory.getCurrentSession().get(UserDetail.class, email);
-	}
-    
-    @Transactional
-    public boolean checkLogin(UserDetail userDetail) {
-	try{
-			Session session=sessionFactory.openSession();
-			Query query=session.createQuery("from User where email=:email and password=:paswrd");
-			query.setParameter("email",userDetail.getEmailId());
-			query.setParameter("paswrd",userDetail.getPassword());
-			UserDetail user=(UserDetail)query.list().get(0);
-			if(user==null)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-	     	}     catch(Exception e){
-			    
-	     		return false;
+	public UserDetail getUserDetails(String username) {
+    	String hql = "from UserDetail where username='" + username + "'";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<UserDetail> list = query.list();
+
+		if (list.isEmpty()) {
+			return null;
+		} else {
+			return list.get(0);
 		}
 	}
-	}
+    @Transactional
+     public boolean checkLogin(String username, String password){
+		System.out.println("In Check login");
+		Session session = sessionFactory.openSession();
+		boolean userFound = false;
+		//Query using Hibernate Query Language
+		String SQL_QUERY =" from UserDetail as o where o.username=? and o.password=?";
+		Query query = session.createQuery(SQL_QUERY);
+		query.setParameter(0,username);
+		query.setParameter(1,password);
+		List list = query.list();
 
+		if ((list != null) && (list.size() > 0)) {
+			userFound= true;
+		}
+
+		session.close();
+		return userFound;              
+   }
+}
